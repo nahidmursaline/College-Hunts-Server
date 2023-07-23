@@ -70,7 +70,17 @@ ratings: 1
 
 app.post('/admissions', async(req, res) => {
   const admission = req.body;
-  const result = await
+  const result = await admissionCollection.insertOne(admission);
+  res.send(result)
+})
+
+app.get('/admissions', async(req, res) =>{
+  let query = {};
+  if(req.query?.email){
+    query = {email: req.query.email}
+  }
+  const result  = await admissionCollection.find(query).toArray();
+  res.send(result)
 })
 
 
