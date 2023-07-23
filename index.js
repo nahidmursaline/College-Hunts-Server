@@ -33,6 +33,7 @@ async function run() {
 
 
 const collegeCollection = client.db('college-hunts').collection('colleges');
+const admissionCollection = client.db('college-hunts').collection('admission');
 
 
 app.get('/colleges', async(req, res) => {
@@ -64,6 +65,12 @@ ratings: 1
     }
     const result = await collegeCollection.findOne(query, options);
     res.send(result)
+})
+
+
+app.post('/admissions', async(req, res) => {
+  const admission = req.body;
+  const result = await
 })
 
 
