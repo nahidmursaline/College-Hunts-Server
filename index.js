@@ -34,6 +34,7 @@ async function run() {
 
 const collegeCollection = client.db('college-hunts').collection('colleges');
 const admissionCollection = client.db('college-hunts').collection('admission');
+const reviewsCollection = client.db('college-hunts').collection('reviews');
 
 
 app.get('/colleges', async(req, res) => {
@@ -82,6 +83,40 @@ app.get('/admissions', async(req, res) =>{
   const result  = await admissionCollection.find(query).toArray();
   res.send(result)
 })
+
+
+app.get('/admissions/:id', async(req, res) => {
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)}
+
+  const options = {
+      projection: {
+        collegeName: 1
+         
+          
+      }
+  }
+  const result = await admissionCollection.findOne(query, options);
+  res.send(result)
+})
+
+
+
+app.post('/reviews', async(req, res) => {
+  const reviews = req.body;
+  const result = await reviewsCollection.insertOne(reviews);
+  res.send(result)
+})
+
+app.get('/reviews', async(req, res) =>{
+  let query = {};
+  if(req.query?.email){
+    query = {email: req.query.email}
+  }
+  const result  = await reviewsCollection.find(query).toArray();
+  res.send(result)
+})
+
 
 
 
